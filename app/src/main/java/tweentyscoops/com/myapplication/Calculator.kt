@@ -1,6 +1,7 @@
 package tweentyscoops.com.myapplication
 
 import android.content.Context
+import tweentyscoops.com.myapplication.view.ViewImpl
 
 class Calculator(
     private val mockObj: Animal,
@@ -12,5 +13,9 @@ class Calculator(
 
     fun minus(x: Int, y: Int) {
         view.showResult("result" to (x - y))
+    }
+
+    fun hof(func: () -> Unit) {
+        func.invoke()
     }
 }
