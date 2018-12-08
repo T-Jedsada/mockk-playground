@@ -70,19 +70,19 @@ class MainPresenterTest {
     fun `get list user should be success`() {
         val mockedResult = UserDao("12345678", "20scoops")
         val mockResponse = Response.success(mockedResult)
-        val deferred = CompletableDeferred(value = mockResponse)
-        whenever(userRepository.getListUserSingle(Mockito.anyString())).thenReturn(deferred)
+        val deferred = CompletableDeferred(mockResponse)
+        whenever(userRepository.getListUserSingle("1234456")).thenReturn(deferred)
         runBlocking { mainPresenter.getListUser("1234456") }
         verify(mockedView, times(1)).onGetUserInformationSuccess(mockedResult)
     }
 
     @Test
     fun `get list user should be error`() {
-        val body = ResponseBody.create(MediaType.parse("application/json; charset=utf-8"), "{message: error}")
-        val mockResponse = Response.error<UserDao>(404, body)
-        val deferred = CompletableDeferred(value = mockResponse)
-        whenever(userRepository.getListUserSingle(Mockito.anyString())).thenReturn(deferred)
-        runBlocking { mainPresenter.getListUser("1234456") }
-        verify(mockedView, times(1)).onGetUserInformationError(mockResponse.errorBody()?.string())
+        val body = ResponseBody.create(MediaType.parse("text/plain"), "error")
+        val mockResponse = Response.error<UserDao>(500, body)
+        val deferred = CompletableDeferred(mockResponse)
+        whenever(userRepository.getListUserSingle("123456")).thenReturn(deferred)
+        runBlocking { mainPresenter.getListUser("123456") }
+        verify(mockedView, times(1)).onGetUserInformationError("error")
     }
 }

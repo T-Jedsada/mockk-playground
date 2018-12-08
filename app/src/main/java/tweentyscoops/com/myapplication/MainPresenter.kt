@@ -1,8 +1,6 @@
 package tweentyscoops.com.myapplication
 
 import android.content.Context
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import tweentyscoops.com.myapplication.repository.UserRepository
 import tweentyscoops.com.myapplication.view.MainView
 
@@ -20,13 +18,11 @@ class MainPresenter(
         })
     }
 
-    fun getListUser(userId: String) {
-        GlobalScope.launch {
-            userRepository.getListUser(userId, {
-                view.onGetUserInformationSuccess(it)
-            }, {
-                view.onGetUserInformationError(it)
-            })
-        }
+    suspend fun getListUser(userId: String) {
+        userRepository.getListUser(userId, {
+            view.onGetUserInformationSuccess(it)
+        }, {
+            view.onGetUserInformationError(it)
+        })
     }
 }

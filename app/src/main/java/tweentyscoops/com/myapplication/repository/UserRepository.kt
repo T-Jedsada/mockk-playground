@@ -33,10 +33,10 @@ class UserRepository(private val userApi: UserApi) {
         onSuccess: (data: UserDao?) -> Unit,
         onError: (error: String?) -> Unit
     ) {
-        val result = getListUserSingle(userId).await()
-        when (result.isSuccessful) {
-            true -> onSuccess.invoke(result.body())
-            else -> onError.invoke(result.errorBody()?.string())
+        val response = getListUserSingle(userId).await()
+        when (response.isSuccessful) {
+            true -> onSuccess.invoke(response.body())
+            else -> onError.invoke("error")
         }
     }
 }
