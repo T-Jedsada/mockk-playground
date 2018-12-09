@@ -1,8 +1,7 @@
-package tweentyscoops.com.myapplication
+package tweentyscoops.com.myapplication.ui.main
 
 import android.content.Context
 import tweentyscoops.com.myapplication.repository.UserRepository
-import tweentyscoops.com.myapplication.view.MainView
 
 class MainPresenter(
     private val userRepository: UserRepository,

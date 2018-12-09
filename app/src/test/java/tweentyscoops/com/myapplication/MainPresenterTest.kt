@@ -21,7 +21,8 @@ import retrofit2.Response
 import tweentyscoops.com.myapplication.dao.UserDao
 import tweentyscoops.com.myapplication.http.UserApi
 import tweentyscoops.com.myapplication.repository.UserRepository
-import tweentyscoops.com.myapplication.view.MainView
+import tweentyscoops.com.myapplication.ui.main.MainPresenter
+import tweentyscoops.com.myapplication.ui.main.MainView
 
 @RunWith(PowerMockRunner::class)
 class MainPresenterTest {
@@ -44,7 +45,11 @@ class MainPresenterTest {
     fun setup() {
         MockitoAnnotations.initMocks(this)
         userRepository = UserRepository(mockedUserApi)
-        mainPresenter = MainPresenter(userRepository, mockedContext, mockedView)
+        mainPresenter = MainPresenter(
+            userRepository,
+            mockedContext,
+            mockedView
+        )
     }
 
     @Test

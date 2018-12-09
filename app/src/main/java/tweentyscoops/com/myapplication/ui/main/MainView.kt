@@ -1,4 +1,4 @@
-package tweentyscoops.com.myapplication.view
+package tweentyscoops.com.myapplication.ui.main
 
 import tweentyscoops.com.myapplication.dao.UserDao
 
