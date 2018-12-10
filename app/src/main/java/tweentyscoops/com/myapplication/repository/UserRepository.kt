@@ -5,6 +5,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import tweentyscoops.com.myapplication.dao.UserDao
 import tweentyscoops.com.myapplication.http.UserApi
@@ -36,10 +38,10 @@ class UserRepository(private val userApi: UserApi) {
         onSuccess: (data: UserDao?) -> Unit,
         onError: (error: String?) -> Unit
     ) {
-        val response = getListUserSingle(userId).await()
+        val response = withContext(Dispatchers.IO) { getListUserSingle(userId) }.await()
         when (response.isSuccessful) {
             true -> onSuccess.invoke(response.body())
-            else -> onError.invoke("error")
+            else -> onError.invoke(response.errorBody()?.string())
         }
     }
 }

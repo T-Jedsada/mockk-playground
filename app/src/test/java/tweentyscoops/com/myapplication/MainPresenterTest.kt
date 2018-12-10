@@ -57,7 +57,9 @@ class MainPresenterTest {
         val mockedResult = UserDao("12345678", "20scoops")
         val mockResponse = Response.success(mockedResult)
         val mockObservable = Single.just(mockResponse)
-        whenever(userRepository.getUserInformationSingle(Mockito.anyString())).thenReturn(mockObservable)
+        whenever(userRepository.getUserInformationSingle(Mockito.anyString())).thenReturn(
+            mockObservable
+        )
         mainPresenter.getUserInformation("12345678")
         verify(mockedView, times(1)).onGetUserInformationSuccess(mockedResult)
     }
@@ -66,7 +68,9 @@ class MainPresenterTest {
     fun `get user information should be error`() {
         val throwable = Throwable("error")
         val mockObservable = Single.error<Response<UserDao>>(throwable)
-        whenever(userRepository.getUserInformationSingle(Mockito.anyString())).thenReturn(mockObservable)
+        whenever(userRepository.getUserInformationSingle(Mockito.anyString())).thenReturn(
+            mockObservable
+        )
         mainPresenter.getUserInformation("12345678")
         verify(mockedView, times(1)).onGetUserInformationError(throwable.message)
     }
@@ -83,11 +87,14 @@ class MainPresenterTest {
 
     @Test
     fun `get list user should be error`() {
-        val body = ResponseBody.create(MediaType.parse("text/plain"), "error")
+        val errorMessage = "error"
+        val body = ResponseBody.create(MediaType.parse("text/plain"), errorMessage)
         val mockResponse = Response.error<UserDao>(500, body)
         val deferred = CompletableDeferred(mockResponse)
         whenever(userRepository.getListUserSingle("123456")).thenReturn(deferred)
         runBlocking { mainPresenter.getListUser("123456") }
-        verify(mockedView, times(1)).onGetUserInformationError("error")
+        verify(mockedView, times(1)).showDialogProgressBar()
+        verify(mockedView, times(1)).onGetUserInformationError(errorMessage)
+        verify(mockedView, times(1)).hideDialogProgressBar()
     }
 }

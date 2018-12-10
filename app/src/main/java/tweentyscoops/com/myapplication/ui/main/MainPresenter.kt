@@ -18,10 +18,12 @@ class MainPresenter(
     }
 
     suspend fun getListUser(userId: String) {
+        view.showDialogProgressBar()
         userRepository.getListUser(userId, {
             view.onGetUserInformationSuccess(it)
         }, {
             view.onGetUserInformationError(it)
         })
+        view.hideDialogProgressBar()
     }
 }
