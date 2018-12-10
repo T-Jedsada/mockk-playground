@@ -11,7 +11,10 @@ import tweentyscoops.com.myapplication.http.UserApi
 
 class UserRepository(private val userApi: UserApi) {
 
-    fun getUserInformationSingle(userId: String): Single<Response<UserDao>> = userApi.getUserInformation(userId)
+    fun getUserInformationSingle(
+        userId: String
+    ): Single<Response<UserDao>> = userApi.getUserInformation(userId)
+
     fun getListUserSingle(userId: String): Deferred<Response<UserDao>> = userApi.getListUser(userId)
 
     fun getUserInformation(
